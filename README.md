@@ -16,3 +16,7 @@ pip install clubear
 import clubear as cb
 cb.xxx
 ```
+
+
+## REFERENCE
+subsampling paper
