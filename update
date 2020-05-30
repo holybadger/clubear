@@ -1,0 +1,41 @@
+# /bin/bash
+
+#copy files
+rm -rf /home/hansheng/clubear/pub/clubear/*
+cp -rf /home/hansheng/clubear/src/*.py /home/hansheng/clubear/pub/clubear
+
+#create the init.py file with auto version
+version=$(date "+%Y-%m-%d %H:%M:%S")
+echo 'import time'> clubear/__init__.py
+echo 'author="Hansheng Wang"'>>clubear/__init__.py 
+echo 'version="'$version'"'>>clubear/__init__.py
+echo 'print("Welcome to clubear! A subsample-based massive data analysis and research toolkit (",version,").")'>>clubear/__init__.py
+
+echo 'from .dm import manager'>>clubear/__init__.py
+echo 'from .pm import pump'>>clubear/__init__.py
+echo 'from .pm import tank'>>clubear/__init__.py
+echo 'from .pm import save'>>clubear/__init__.py
+echo 'from .ck import check'>>clubear/__init__.py
+echo 'from .pt import plot'>>clubear/__init__.py
+echo 'from .md import model'>>clubear/__init__.py
+echo 'from .sf import shuffle'>>clubear/__init__.py
+echo 'from .sim import simulator'>>clubear/__init__.py
+echo 'from .fun import demo'>>clubear/__init__.py
+echo 'from .fun import ispump'>>clubear/__init__.py
+
+
+#create a new version
+rm -rf /home/hansheng/clubear/pub/dist
+python /home/hansheng/clubear/pub/setup.py sdist bdist_wheel
+
+#uninstall the current version and intall the new version
+pip uninstall clubear -y
+pip install /home/hansheng/clubear/pub/dist/*.tar.gz
+
+#backup files to bak directory 
+cp -rf /home/hansheng/clubear/pub/dist/*.tar.gz /clubear/dist
+dirname=$(date "+%Y-%m-%d-%H-%M-%S")
+mkdir /clubear/bak/$dirname
+cp -rf /home/hansheng/clubear/pub/clubear/*.py /clubear/bak/$dirname
+cp update /clubear/bak/$dirname
+
